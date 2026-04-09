@@ -1,2 +1,71 @@
 # middleware-chain
-Composable middleware pipeline with context propagation and error recovery
+
+[![Build Status](https://img.shields.io/github/actions/workflow/status/user/middleware-chain/ci.yml?branch=main)]()
+[![Go Version](https://img.shields.io/badge/go-1.22+-blue.svg)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+Composable middleware pipeline with context propagation and error recovery — designed for production workloads with a focus on reliability and developer ergonomics.
+
+## Features
+
+- Context Support: Full context.Context propagation for cancellation and deadlines
+- High Performance: Optimized for low-latency, high-throughput workloads
+- Graceful Shutdown: Clean shutdown handling with configurable drain timeout
+- Structured Logging: Built-in structured logging with slog compatibility
+- Zero Dependencies: No external packages required for core functionality
+
+## Getting Started
+
+### Installation
+
+```bash
+go get github.com/user/middleware-chain@latest
+```
+
+## Usage
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/user/middleware-chain"
+)
+
+func main() {
+	client := middlewarechain.New(
+		middlewarechain.WithTimeout(30 * time.Second),
+	)
+
+	result, err := client.Run(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(result)
+}
+```
+
+## Configuration
+
+Configuration can be provided via environment variables, a config file, or programmatically.
+
+| Variable | Description | Default |
+|----------|-------------|--------|
+| `MIDDLEWARE_CHAIN_TIMEOUT` | Request timeout in seconds | `30` |
+| `MIDDLEWARE_CHAIN_RETRIES` | Number of retry attempts | `3` |
+| `MIDDLEWARE_CHAIN_LOG_LEVEL` | Log verbosity (debug, info, warn, error) | `info` |
+
+## Contributing
+
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before submitting a pull request.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
